@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pw.io.booker.model.Customer;
+import pw.io.booker.model.Token;
 import pw.io.booker.repo.CustomerRepository;
 
 @RestController
@@ -42,7 +44,7 @@ public class CustomerController {
   }
 
   @PutMapping
-  public List<Customer> updateAll(@RequestBody List<Customer> customers) {
+  public List<Customer> updateAll(@RequestBody List<Customer> customers, @RequestHeader Token token) {
     for(Customer customer : customers) {
       if(!customerRepository.findById(customer.getCustomerId()).isPresent()) {
         throw new RuntimeException("Customers should exist first");
@@ -52,14 +54,14 @@ public class CustomerController {
   }
 
   @DeleteMapping
-  public List<Customer> deleteAll(@RequestParam("customerIdList") List<Integer> customerIdList) {
+  public List<Customer> deleteAll(@RequestParam("customerIdList") List<Integer> customerIdList, @RequestHeader Token token) {
     List<Customer> customerList = (List<Customer>) customerRepository.findAllById(customerIdList);
     customerRepository.deleteAll(customerList);
     return customerList;
   }
 
   @GetMapping("/{customerId}")
-  public Customer getCustomer(@PathVariable("customerId") int customerId) {
+  public Customer getCustomer(@PathVariable("customerId") int customerId, @RequestHeader Token token) {
     return customerRepository.findById(customerId).get();
   }
 
@@ -77,7 +79,7 @@ public class CustomerController {
   }
 
   @DeleteMapping("/{customerId}")
-  public Customer deleteCustomer(@PathVariable("customerId") int customerId) {
+  public Customer deleteCustomer(@PathVariable("customerId") int customerId, @RequestHeader Token token) {
     Customer customer = customerRepository.findById(customerId).get();
     customerRepository.delete(customer);
     return customer;

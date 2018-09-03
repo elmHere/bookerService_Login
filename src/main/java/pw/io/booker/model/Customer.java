@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,13 +23,39 @@ public class Customer {
 	private String lastName;
 	private String username;
 	private String password;
+	@OneToOne
+	private Token token;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "customer", cascade=CascadeType.REMOVE)
 	private List<Reservation> reservation;
 
+	public Token getToken() {
+		return token;
+	}
+
+	public void setToken(Token token) {
+		this.token = token;
+	}
+
 	public int getCustomerId() {
 		return customerId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setCustomerId(int customerId) {
