@@ -46,7 +46,7 @@
 	
 
 	<!-- ############### Loggers ############  -->
-	<!--<logger name="com.ibatis" >
+	--<logger name="com.ibatis" >
 	  	<level value="DEBUG"/>
 		<appender-ref ref="debugConsole" />
 
@@ -73,7 +73,7 @@
 	--><!-- ############### Categories ############  -->
 
 
-	<!-- 
+	-- 
 		
 		<category name="com.ibatis">
 		<priority value="debug" />
@@ -96,11 +96,17 @@
 
 	<root>
 		<priority value="debug" />
-		<!-- <appender-ref ref="debugConsole" />	 -->	
+		 <appender-ref ref="debugConsole" />
 		<appender-ref ref="infoFile" />
 		<appender-ref ref="errorFile" />
 	</root>
 
+	<root>
+		<priority value="info" />
+		 <appender-ref ref="debugConsole" />
+		<appender-ref ref="infoFile" />
+		<appender-ref ref="errorFile" />
+	</root>
 
 
 </log4j:configuration>

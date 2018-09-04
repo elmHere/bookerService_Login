@@ -29,7 +29,7 @@ public class CustomerController {
   }
 
   @GetMapping
-  public List<Customer> getAll(@RequestHeader Token token) {
+  public List<Customer> getAll(@RequestHeader String token) {
     return (List<Customer>) customerRepository.findAll();
   }
 
@@ -44,7 +44,7 @@ public class CustomerController {
   }
 
   @PutMapping
-  public List<Customer> updateAll(@RequestBody List<Customer> customers, @RequestHeader Token token) {
+  public List<Customer> updateAll(@RequestBody List<Customer> customers, @RequestHeader String token) {
     for(Customer customer : customers) {
       if(!customerRepository.findById(customer.getCustomerId()).isPresent()) {
         throw new RuntimeException("Customers should exist first");
@@ -54,20 +54,20 @@ public class CustomerController {
   }
 
   @DeleteMapping
-  public List<Customer> deleteAll(@RequestParam("customerIdList") List<Integer> customerIdList, @RequestHeader Token token) {
+  public List<Customer> deleteAll(@RequestParam("customerIdList") List<Integer> customerIdList, @RequestHeader String token) {
     List<Customer> customerList = (List<Customer>) customerRepository.findAllById(customerIdList);
     customerRepository.deleteAll(customerList);
     return customerList;
   }
 
   @GetMapping("/{customerId}")
-  public Customer getCustomer(@PathVariable("customerId") int customerId, @RequestHeader Token token) {
+  public Customer getCustomer(@PathVariable("customerId") int customerId, @RequestHeader String token) {
     return customerRepository.findById(customerId).get();
   }
 
   @PutMapping("/{customerId}")
   public Customer updateCustomer(@PathVariable("customerId") int customerId,
-      @RequestBody Customer customer) {
+      @RequestBody Customer customer, @RequestHeader String token) {
     if(customerId != customer.getCustomerId()) {
       throw new RuntimeException("Id is not the same with the object id");
     }
@@ -79,7 +79,7 @@ public class CustomerController {
   }
 
   @DeleteMapping("/{customerId}")
-  public Customer deleteCustomer(@PathVariable("customerId") int customerId, @RequestHeader Token token) {
+  public Customer deleteCustomer(@PathVariable("customerId") int customerId, @RequestHeader String token) {
     Customer customer = customerRepository.findById(customerId).get();
     customerRepository.delete(customer);
     return customer;

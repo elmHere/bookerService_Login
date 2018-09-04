@@ -21,7 +21,7 @@ public class LoginAspect {
 	
 	
 	@Around("execution(* pw.io.booker.controller..*(..)) && args(token)")
-	public Object validate(ProceedingJoinPoint joinpoint, Token token) {
+	public Object validate(ProceedingJoinPoint joinpoint, String token) {
 		
 		logger.info("Start validateLogin");
 		
@@ -29,10 +29,13 @@ public class LoginAspect {
 		if(token == null) {
 			throw new MyException("Invalid Token. Access denied");
 		}	
+		
 		/// token did not match any token in repository
-		if(authenticationRepository.findByToken(token.getToken()) == null) {
+		// something wrong with this statement tho??
+		if(authenticationRepository.findByToken(token)== null) {
 			throw new MyException("Invalid Token. Access denied");
-		}		
+		}	
+		
 		/// valid token
 		try {
 			return joinpoint.proceed();
