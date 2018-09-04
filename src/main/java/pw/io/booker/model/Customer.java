@@ -23,6 +23,7 @@ public class Customer {
 	private String lastName;
 	private String username;
 	private String password;
+
 	@OneToOne
 	private Token token;
 

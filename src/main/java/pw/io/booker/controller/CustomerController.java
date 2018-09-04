@@ -29,6 +29,7 @@ public class CustomerController {
   }
 
   @GetMapping
+  //@RequestHeader("loginToken") String token
   public List<Customer> getAll(@RequestHeader String token) {
     return (List<Customer>) customerRepository.findAll();
   }
@@ -47,7 +48,7 @@ public class CustomerController {
   public List<Customer> updateAll(@RequestBody List<Customer> customers, @RequestHeader String token) {
     for(Customer customer : customers) {
       if(!customerRepository.findById(customer.getCustomerId()).isPresent()) {
-        throw new RuntimeException("Customers should exist first");
+        throw new RuntimeException("Customers not found");
       }
     }
     return (List<Customer>) customerRepository.saveAll(customers);
@@ -69,10 +70,10 @@ public class CustomerController {
   public Customer updateCustomer(@PathVariable("customerId") int customerId,
       @RequestBody Customer customer, @RequestHeader String token) {
     if(customerId != customer.getCustomerId()) {
-      throw new RuntimeException("Id is not the same with the object id");
+      throw new RuntimeException("Customer ID mismatch");
     }
     if (!customerRepository.findById(customer.getCustomerId()).isPresent()) {
-      throw new RuntimeException("Customers should exist first");
+      throw new RuntimeException("Customers not found.");
     }
     customer.setCustomerId(customerId);
     return customerRepository.save(customer);

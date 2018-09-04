@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Token {
@@ -12,6 +14,7 @@ public class Token {
 	@GeneratedValue
 	private Integer tokenId;
 	private String token;
+	@JsonIgnore
 	@OneToOne
 	private Customer customer;
 

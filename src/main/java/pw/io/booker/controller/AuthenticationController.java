@@ -85,10 +85,10 @@ public class AuthenticationController {
 	/// Logging out
 	@DeleteMapping
 		//public void logout(@RequestBody Customer customer,@RequestHeader Token token)
-		public void logout(@RequestHeader Token token) {
+		public void logout(@RequestHeader String token) {
 		/// logout customer by deleting token associated to customer
 		//authenticationRepository.deleteById(customer.getToken().getTokenId());
-		authenticationRepository.deleteByToken(token.getToken());
+		authenticationRepository.deleteByToken(token);
 	}
 	
 	
