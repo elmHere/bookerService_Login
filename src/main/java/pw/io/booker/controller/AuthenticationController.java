@@ -2,6 +2,7 @@ package pw.io.booker.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pw.io.booker.aspect.LoginAspect;
 import pw.io.booker.model.Customer;
 import pw.io.booker.model.LoginDetails;
 import pw.io.booker.model.Token;
@@ -22,6 +24,8 @@ import pw.io.booker.util.TokenCreator;
 @Transactional
 @RequestMapping("/login")
 public class AuthenticationController {
+	
+	Logger logger = Logger.getLogger(AuthenticationController.class);
 	
 	private CustomerRepository customerRepository;
 	private TokenCreator tokenCreator;
@@ -39,6 +43,9 @@ public class AuthenticationController {
 	/// ask for user name and password, validate login details 
 	@PostMapping
 	public String login(@RequestBody LoginDetails login) {
+		
+		logger.info("Start login");
+		
 		String token = null; //return null if username+password no match
 		
 		/// find from customer repository matching username and password
@@ -58,6 +65,8 @@ public class AuthenticationController {
 		//else {
 		//	token = "Invalid login details";
 		//}
+		
+		logger.info("End login");
 		return token;
 	}
 	

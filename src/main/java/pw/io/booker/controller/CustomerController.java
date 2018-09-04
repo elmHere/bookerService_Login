@@ -29,7 +29,7 @@ public class CustomerController {
   }
 
   @GetMapping
-  public List<Customer> getAll() {
+  public List<Customer> getAll(@RequestHeader Token token) {
     return (List<Customer>) customerRepository.findAll();
   }
 
